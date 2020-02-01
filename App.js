@@ -25,17 +25,7 @@ const instructions = Platform.select({
 });
 
 // export default class App extends Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Button title="请点击" onPress={this.test}>123</Button>
-//       </View>
-//     );
-//   }
-//   test() {
-//     console.log('press text');
-   
-//   }
+
 // }
 
 // 定义路由配置对象，默认为第一个路由
