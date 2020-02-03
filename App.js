@@ -30,6 +30,13 @@ const instructions = Platform.select({
 
 // 定义路由配置对象，默认为第一个路由
 const routes = {
+  my: {
+    // 渲染的屏幕
+    screen: My,
+    navigationOptions: {
+      title: ''
+    }
+  },
   // 路由名称: {配置映射}
   login: {
     // 渲染的屏幕
@@ -74,8 +81,8 @@ const bottomRoutes = {
       tabBarLabel: '发现'
     }
   },
-  my: {
-    // screen: Me,
+  我的: {
+    // screen: My,
     screen: stackNav,
     navigationOptions: {
       tabBarIcon: ({tintColor})=>(<Icon name="user" type="antdesign" color={tintColor}></Icon>),
@@ -85,9 +92,9 @@ const bottomRoutes = {
 }
 const bottomNav = createBottomTabNavigator(bottomRoutes, {
   tabBarOptions: {
-    // activeTintColor: '#e91e63',
+    activeTintColor: '#ffcc00',
     labelStyle: {
-      fontSize: 18
+      fontSize: 14
     }
   }
 });
