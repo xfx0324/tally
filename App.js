@@ -34,7 +34,7 @@ const routes = {
     // 渲染的屏幕
     screen: My,
     navigationOptions: {
-      title: ''
+      title: '我的'
     }
   },
   // 路由名称: {配置映射}
