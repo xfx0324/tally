@@ -1,44 +1,82 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen'
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Button, ScrollView} from 'react-native';
 import Picker from 'react-native-picker';
 import Swipeout from 'react-native-swipeout';
 class Detail extends React.Component{
+    constructor(){
+        super();
+        this.state={
+            dataN:[2020,2]
+        }
+    }
     componentDidMount(){
         setTimeout(() => {
             SplashScreen.hide();
           },1200)
     }
+    selectDate = () => {
+        let pickerData = [];
+        let year = [];
+        let month = [];
+        for (let i = 2010; i <= 2025; i++) {
+          year.push(i);
+        }
+        for (let i = 1; i <= 12; i++) {
+          month.push(i);
+        }
+        pickerData.push(year);
+        pickerData.push(month);
+        Picker.init({
+          pickerData: pickerData,
+          selectedValue: ['2020', '2'],
+          pickerConfirmBtnText: '确定',
+          pickerCancelBtnText: '取消',
+          pickerTitleText: '选择年月',
+          onPickerConfirm: data => {
+            this.setState({dataN:data})
+          },
+        //   onPickerCancel: data => {
+        //     console.log('取消：', data);
+        //   },
+        //   onPickerSelect: data => {
+        //     console.log('选择了：', data);
+        //   }
+        })
+        Picker.show();
+      }
     render(){
         return (
         <View>
+            <ScrollView>
             <View style={styles.view1}>
                 <View style={styles.view2}>
                     <Text style={styles.title}>鲨鱼记账</Text>
                     <View style={styles.icon}>
-                    <Icon name="search1" type="antdesign" size={20}></Icon>
+                    <Icon name="search1" type="antdesign" size={20} color="#696969"></Icon>
                     </View>
-                    <Icon name="calendar" type="antdesign" size={20}></Icon>
+                    <Icon name="calendar" type="antdesign" size={20} color="#696969"></Icon>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.cen}>2020</Text>
+                    <Text style={styles.cen}>{this.state.dataN[0]}</Text>
                     <Text style={styles.cen}>收入</Text>
                     <Text style={styles.cen}>支出</Text>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.cen}>02月</Text>
-                    <Text style={styles.cen}>20.00</Text>
+                    <Text style={styles.cen1}>{this.state.dataN[1]}月</Text>
+                    <Icon name="caretdown" type="antdesign" size={16} color="#696969" onPress={this.selectDate}></Icon>
+                    <Text style={styles.cen2}>20.00</Text>
                     <Text style={styles.cen}>10.00</Text>
-                </View>     
+                </View>    
             </View>
             <View>
                 <Text>明细1</Text>
             </View>
+            </ScrollView>
         </View>)
     }
 }
-
 const styles = StyleSheet.create({
     view1: {
         height:150,
@@ -65,7 +103,16 @@ const styles = StyleSheet.create({
     cen:{
         fontSize:16,
         marginRight:100
+    },
+    cen1:{
+        fontSize:16,
+    },
+    cen2:{
+        fontSize:16,
+        marginLeft:86,
+        marginRight:90
     }
+
 })
 
 export default Detail;
