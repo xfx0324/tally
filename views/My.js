@@ -16,6 +16,7 @@ class My extends React.Component{
             on2: false,
         }
     } 
+    //点击跳转登录页面
     goLogin = ()=>{
         if(this.state.name=='请点击头像登录'){
             this.props.navigation.navigate('login')
@@ -25,11 +26,7 @@ class My extends React.Component{
             })
         }
     }
-    // card = ()=>{
-    //     if(this.state.name=='请点击头像登录'){
-    //         this.props.navigation.navigate('login')
-    //     }
-    // }
+    //缓存读取登录名
     getName=async()=>{
         let nameN=await AsyncStorage.getItem('userName')
         let flagN=await AsyncStorage.getItem('flag')
@@ -39,6 +36,7 @@ class My extends React.Component{
             this.setState({flag:true})
         }
     }
+    //退出登录，清除缓存
     exitLogin=()=>{
         AsyncStorage.removeItem('userName')
         this.setState({name:"请点击头像登录"})
@@ -49,12 +47,15 @@ class My extends React.Component{
         // this.props.navigation.navigate('login')
         //  console.log(12)
     }
+    //声音开关
     handleSwitch1 = (value) => {
         this.setState({on1: value});
       }
+      //明细详情开关
       handleSwitch2 = (value) => {
         this.setState({on2: value});
       }
+      
     componentDidMount() {
         this.getName();
         console.log(this.state.flag)

@@ -11,6 +11,7 @@ import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {createStackNavigator, createAppContainer, createBottomTabNavigator} from 'react-navigation';
 import Login from './views/Login';
+import SortSet from './views/SortSet';
 import Chart from './views/Chart';
 import Detail from './views/Detail';
 import Found from './views/Found';
@@ -46,11 +47,24 @@ const routes = {
     }
   }
 }
-
+const routes1={
+  tally:{
+    screen: Tally,
+    navigationOptions: {
+      title: '记账'
+    }
+  },
+  sortSet:{
+    screen: SortSet,
+    navigationOptions: {
+      title: '类别设置'
+    }
+  }
+}
 // 参数1：必须的，路由配置对象，是从路由名称到路由配置的映射，它告诉导航器该路由呈现的内容。
 // 参数2：可选的，路由选项配置对象
 const stackNav = createStackNavigator(routes);
-
+const stackNav1 = createStackNavigator(routes1);
 // 页面底部的标签栏，可让您在不同路由之间进行切换。 路由被懒加载 - 它们的屏幕组件只有在第一次获取焦点时才会被加载。
 const bottomRoutes = {
   明细: {
@@ -68,7 +82,7 @@ const bottomRoutes = {
     }
   },
   记账: {
-    screen: Tally,
+    screen: stackNav1,
     navigationOptions: {
       tabBarIcon: ({tintColor})=>(<Icon name="pluscircleo" type="antdesign" color={tintColor}></Icon>),
       tabBarLabel: '记账'
