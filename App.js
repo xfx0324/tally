@@ -35,7 +35,7 @@ const routes = {
     // 渲染的屏幕
     screen: My,
     navigationOptions: {
-      title: '我的'
+      header:null,
     }
   },
   // 路由名称: {配置映射}
@@ -51,13 +51,27 @@ const routes1={
   tally:{
     screen: Tally,
     navigationOptions: {
-      title: '记账'
+      // title:"记账",
+      header:null,
+      // tabBarVisible:false,
+
     }
   },
   sortSet:{
     screen: SortSet,
     navigationOptions: {
-      title: '类别设置'
+      title: '类别设置',
+      // tabBarVisible:false,
+      headerStyle:{
+        backgroundColor:"#ffdb4d",
+        height:30,
+        // marginLeft:3
+      },
+      headerTitleStyle:{
+        fontSize:16,
+        fontWeight:'normal',
+        // textAlign:'center'
+      }
     }
   }
 }
@@ -65,6 +79,15 @@ const routes1={
 // 参数2：可选的，路由选项配置对象
 const stackNav = createStackNavigator(routes);
 const stackNav1 = createStackNavigator(routes1);
+// routes1.navigationOptions=({ navigation }) => {
+//   let tabBarVisible = true;
+//   if (navigation.state.index > 0) {
+//     tabBarVisible = false;
+//   }
+//   return {
+//     tabBarVisible,
+//   };
+// };
 // 页面底部的标签栏，可让您在不同路由之间进行切换。 路由被懒加载 - 它们的屏幕组件只有在第一次获取焦点时才会被加载。
 const bottomRoutes = {
   明细: {

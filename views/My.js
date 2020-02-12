@@ -55,7 +55,7 @@ class My extends React.Component{
       handleSwitch2 = (value) => {
         this.setState({on2: value});
       }
-      
+
     componentDidMount() {
         this.getName();
         console.log(this.state.flag)
@@ -114,6 +114,10 @@ class My extends React.Component{
                     <Text style={styles.text1}>升级至专业版</Text>
                 </View>
                 <View style={styles.row1}>
+                    <Icon name="smileo" type="antdesign" color="#ffcc33" size={20}></Icon>
+                    <Text style={styles.text}>通讯电话</Text>
+                </View>
+                <View style={styles.row1}>
                     <Icon name="external-link" type="feather" color="#ffcc33" size={20}></Icon>
                     <Text style={styles.text}>推荐鲨鱼记账给好友</Text>
                 </View>
@@ -162,14 +166,14 @@ const styles = StyleSheet.create({
         paddingTop:10,
         paddingLeft:15,
         flexDirection:'row',
-        height:40,
+        height:41,
         backgroundColor:'white'
     },
     row2:{
         paddingTop:10,
         paddingLeft:15,
         flexDirection:'row',
-        height:40,
+        height:41,
         marginTop:12,
         marginBottom:12,
         backgroundColor:"white"
@@ -179,7 +183,7 @@ const styles = StyleSheet.create({
         paddingTop:10,
         paddingLeft:15,
         flexDirection:'row',
-        height:40,
+        height:41,
         marginTop:12,
         backgroundColor:'white'
     },
