@@ -132,6 +132,9 @@ const bottomNav = createBottomTabNavigator(bottomRoutes, {
     activeTintColor: '#ffcc00',
     labelStyle: {
       fontSize: 14
+    },
+    style:{
+      height:60
     }
   }
 });

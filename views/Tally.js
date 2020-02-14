@@ -32,23 +32,34 @@ class Tally extends React.Component{
         }
     }
     //选择支出类型
-    selectSortOut= (index) => {
-        let seleOutArr=this.state.outArr
-        for(let i=0;i<seleOutArr.length;i++){
-            seleOutArr[i].iconFlag=false
-        }
-        seleOutArr[index].iconFlag=true
-        this.setState({outArr:seleOutArr})
-        console.log("out",index)
-    }
-    //选择收入类型
-    selectSortIn= (index) => {
-        let seleInArr=this.state.inArr
+    // selectSortOut= (index) => {
+    //     let seleOutArr=this.state.outArr
+    //     for(let i=0;i<seleOutArr.length;i++){
+    //         seleOutArr[i].iconFlag=false
+    //     }
+    //     seleOutArr[index].iconFlag=true
+    //     this.setState({outArr:seleOutArr})
+    //     console.log("out",index)
+    // }
+    //选择收入/支出类型
+    selectSort= (index,fl) => {
+        if(fl){
+            let seleInArr=this.state.inArr
         for(let i=0;i<seleInArr.length;i++){
             seleInArr[i].iconFlag=false
         }
         seleInArr[index].iconFlag=true
         this.setState({inArr:seleInArr})
+        }
+        else{
+            let seleOutArr=this.state.outArr
+        for(let i=0;i<seleOutArr.length;i++){
+            seleOutArr[i].iconFlag=false
+        }
+        seleOutArr[index].iconFlag=true
+        this.setState({outArr:seleOutArr})
+        }
+        
         console.log("in",index)
     }
     //支出view
@@ -61,39 +72,44 @@ class Tally extends React.Component{
         this.setState({flag:true})
         console.log("收入")
     }
-    //支出类型设置
-    setSortOut=()=>{
-        this.props.navigation.navigate('sortSet')
+    //取消
+    cancel=()=>{
+        // this.props.navigation.goBack()
+        // console.log('quxiao')
+    }
+    //类型设置
+    setSort=(sort)=>{
+        this.props.navigation.navigate('sortSet',{clickSort:sort})
         console.log('支出设置')
     }
     //收入类型设置
-    setSortIn=()=>{
-        console.log('收入设置')
-    }
+    // setSortIn=()=>{
+    //     console.log('收入设置')
+    // }
     render(){
         return (
         <View>
             <View style={styles.head}>
                 <Text style={this.state.flag?styles.text1:styles.text4} onPress={this.outMoney}>支出</Text>
                 <Text style={this.state.flag?styles.text5:styles.text2} onPress={this.inMoney}>收入</Text>
-                <Text style={styles.text3}>取消</Text>
+                <Text style={styles.text3} onPress={this.cancel}>取消</Text>
             </View>
-            {this.state.flag?(
+           
             <View>
-                <FlatList extraData={this.state} numColumns={4} data={this.state.inArr} renderItem={({item}) => 
+                <FlatList extraData={this.state} numColumns={4} data={this.state.flag?this.state.inArr:this.state.outArr} renderItem={({item,index}) => 
                 <View style={styles.view}>
                      <View style={item.iconFlag?styles.iconV1:styles.iconV}>
-                        <Icon onPress={() => this.selectSortIn(item.key)} name={item.iconName} type="antdesign" size={34} color="gray"></Icon>
+                        <Icon onPress={() => this.selectSort(index,this.state.flag)} name={item.iconName} type="antdesign" size={34} color="gray"></Icon>
                     </View>
                     <Text style={styles.text}>{item.sort}</Text>
                 </View>}/>
                 <View style={styles.set}>
-                    <View style={styles.iconV}><Icon onPress={this.setSortIn} name="setting" type="antdesign" size={34} color="gray"></Icon>
+                    <View style={styles.iconV}><Icon onPress={()=> this.setSort(this.state.flag)} name="setting" type="antdesign" size={34} color="gray"></Icon>
                     </View>
                     <Text style={styles.text}>设置</Text>
                 </View>
-            </View>):(
-            <View>
+            </View>
+            {/* <View>
             <FlatList extraData={this.state} keyExtractor={item => item.key} numColumns={4} data={this.state.outArr} renderItem={({item}) => 
             <View style={styles.view}>
                  <View style={item.iconFlag?styles.iconV1:styles.iconV}>
@@ -102,11 +118,11 @@ class Tally extends React.Component{
                 <Text style={styles.text}>{item.sort}</Text>
             </View>}/>
             <View style={styles.set}>
-                <View style={styles.iconV}><Icon onPress={this.setSortOut} name="setting" type="antdesign" size={34} color="gray"></Icon>
+                <View style={styles.iconV}><Icon onPress={()=> this.setSort('out')} name="setting" type="antdesign" size={34} color="gray"></Icon>
                 </View>
                 <Text style={styles.text}>设置</Text>
             </View>
-        </View>)}
+        </View> */}
         </View>)
     }
 }

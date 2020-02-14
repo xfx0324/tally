@@ -2,7 +2,7 @@ import React from 'react';
 import Ima from '../Ima';
 import {Icon} from 'react-native-elements';
 import RNRestart from 'react-native-restart';
-import {View, Text, StyleSheet, Image, TouchableOpacity,AsyncStorage,Switch} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity,AsyncStorage,Switch,ScrollView} from 'react-native';
 
 class My extends React.Component{
     constructor(){
@@ -86,6 +86,7 @@ class My extends React.Component{
                     </View>
                 </View>
             </View>
+            <ScrollView alwaysBounceVertical={true} style={styles.scroll}>
             <View>
                 <View style={styles.row2}>
                     <Icon name="deleteuser" type="antdesign" color="#ffcc33" size={20}></Icon>
@@ -122,6 +123,7 @@ class My extends React.Component{
                     <Text style={styles.text}>推荐鲨鱼记账给好友</Text>
                 </View>
             </View>
+            </ScrollView>
         </View>
         
         )
@@ -161,6 +163,9 @@ const styles = StyleSheet.create({
     row:{
         flexDirection:'row',
         marginTop:15
+    },
+    scroll:{
+        height:400
     },
     row1:{
         paddingTop:10,
