@@ -59,6 +59,10 @@ class SortSet extends React.Component{
             this.setState({outArr:deleOutArr})
         }
     }
+    //去添加 收入／支出 类别
+    goAdd=(sort)=>{
+        this.props.navigation.navigate('sortAdd',{clickSort:sort})
+    }
     componentDidMount() {
         this.getFlag();
       }
@@ -88,6 +92,9 @@ class SortSet extends React.Component{
                             </View>
                             </Swipeout>
                         }/>
+                    </View>
+                    <View style={styles.view4}>
+                        <Text onPress={()=>this.goAdd(this.state.flag)}>+添加类别</Text>
                     </View>
             </View>
         )
@@ -171,6 +178,12 @@ const styles = StyleSheet.create({
     text5:{
         width:50,
         marginRight:270
+    },
+    view4:{
+        backgroundColor:'#f0f0f5',
+        height:30,
+        paddingTop:4,
+        paddingLeft:200
     }
 })
 

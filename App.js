@@ -12,6 +12,7 @@ import {Icon} from 'react-native-elements';
 import {createStackNavigator, createAppContainer, createBottomTabNavigator} from 'react-navigation';
 import Login from './views/Login';
 import SortSet from './views/SortSet';
+import SortAdd from './views/SortAdd';
 import Chart from './views/Chart';
 import Detail from './views/Detail';
 import Found from './views/Found';
@@ -72,6 +73,17 @@ const routes1={
         fontWeight:'normal',
         // textAlign:'center'
       }
+    }
+  },
+  sortAdd:{
+    screen: SortAdd,
+    navigationOptions:{
+      header:null,
+      // title: '1',
+      // headerStyle:{
+      //   backgroundColor:"#ffdb4d",
+      //   height:25,
+      // },
     }
   }
 }
