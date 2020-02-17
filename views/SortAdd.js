@@ -7,9 +7,10 @@ class SortAdd extends React.Component{
         super();
         this.state={
             flag:false,
+            icon1:'verticleleft',
             arr:[
-                {title:'娱乐',key:'娱乐',data:[[
-                    {iconName:"verticleleft",iconFlag:false},
+                {title:'娱乐',key:0,data:[[
+                    {iconName:"verticleleft",iconFlag:true},
                     {iconName:"verticleright",iconFlag:false},
                     {iconName:"team",iconFlag:false},
                     {iconName:"meh",iconFlag:false},
@@ -19,7 +20,7 @@ class SortAdd extends React.Component{
                     {iconName:"clockcircleo",iconFlag:false},
                     {iconName:"dribbble",iconFlag:false},
                 ]]},
-                {title:'饮食',key:'饮食',data:[[
+                {title:'饮食',key:1,data:[[
                     {iconName:"link",iconFlag:false},
                     {iconName:"cloudo",iconFlag:false},
                     {iconName:"clouddownloado",iconFlag:false},
@@ -28,49 +29,49 @@ class SortAdd extends React.Component{
                     {iconName:"hearto",iconFlag:false},
                     {iconName:"enviromento",iconFlag:false}
                 ]]},
-                {title:'医疗',key:'医疗',data:[[
+                {title:'医疗',key:2,data:[[
                     {iconName:"pushpino",iconFlag:false},
                     {iconName:"sharealt",iconFlag:false},
                     {iconName:"medicinebox",iconFlag:false}
                 ]]},
-                {title:'学习',key:'学习',data:[[
+                {title:'学习',key:3,data:[[
                     {iconName:"profile",iconFlag:false},
                     {iconName:"switcher",iconFlag:false},
                     {iconName:"like2",iconFlag:false}
                 ]]},
-                {title:'交通',key:'交通',data:[[
+                {title:'交通',key:4,data:[[
                     {iconName:"car",iconFlag:false},
                     {iconName:"notification",iconFlag:false}
                 ]]},
-                {title:'购物',key:'购物',data:[[
+                {title:'购物',key:5,data:[[
                     {iconName:"shoppingcart",iconFlag:false},
                     {iconName:"save",iconFlag:false},
                     {iconName:"inbox",iconFlag:false},
                     {iconName:"windowso",iconFlag:false},
                 ]]},
-                {title:'生活',key:'生活',data:[[
+                {title:'生活',key:6,data:[[
                     {iconName:"calendar",iconFlag:false},
                     {iconName:"isv",iconFlag:false},
                     {iconName:"tool",iconFlag:false}
                 ]]},
-                {title:'家居',key:'家居',data:[[
+                {title:'家居',key:7,data:[[
                     {iconName:"tablet1",iconFlag:false},
                     {iconName:"key",iconFlag:false}
                 ]]},
-                {title:'家庭',key:'家庭',data:[[
+                {title:'家庭',key:8,data:[[
                     {iconName:"picture",iconFlag:false}
                 ]]},
-                {title:'健身',key:'健身',data:[[
+                {title:'健身',key:9,data:[[
                     {iconName:"totop",iconFlag:false},
                     {iconName:"android",iconFlag:false},
                 ]]},
-                {title:'收入',key:'收入',data:[[
+                {title:'收入',key:10,data:[[
                     {iconName:"shrink",iconFlag:false},
                     {iconName:"codesquareo",iconFlag:false},
                     {iconName:"swap",iconFlag:false},
                     {iconName:"lock",iconFlag:false},
                 ]]},
-                {title:'其它',key:'其它',data:[[
+                {title:'其它',key:11,data:[[
                     {iconName:"calculator",iconFlag:false},
                     {iconName:"barchart",iconFlag:false},
                     {iconName:"disconnect",iconFlag:false},
@@ -93,6 +94,20 @@ class SortAdd extends React.Component{
         this.props.navigation.goBack()
         console.log('fanhui')
     }
+     //完成
+
+     //点击类别
+     clickSort=(index1,section)=>{
+        let clickArr=this.state.arr
+        for(let i=0;i<clickArr.length;i++){
+            for(let j=0;j<clickArr[i].data[0].length;j++){
+                clickArr[i].data[0][j].iconFlag=false
+            }
+        }
+        clickArr[section.key].data[0][index1].iconFlag=true
+        this.setState({icon1:clickArr[section.key].data[0][index1].iconName})
+        this.setState({arr:clickArr})
+     }
     componentDidMount() {
         this.getFlag();
       }
@@ -106,18 +121,19 @@ class SortAdd extends React.Component{
                     <Text>完成</Text>
                 </View>
                 <View style={styles.view1}>
-                    <Icon></Icon>
+                    <View style={styles.icon}>
+                        <Icon name={this.state.icon1} type="antdesign" size={24} color="gray"></Icon>
+                    </View>
                     <TextInput maxLength={3} clearTextOnFocus={true} style={styles.input} placeholder='请输入类别名称(不超过3个字)' placeholderTextColor='#cccccc'></TextInput>
                 </View>
                 <View style={styles.vie}>
-                    <SectionList keyExtractor={(index) => index} sections={this.state.arr} renderItem={({item,index})=>
+                    <SectionList keyExtractor={(item,index) => index} sections={this.state.arr} renderItem={({item,index,section})=>
                         <View style={styles.view2}>
-                            {item.map((item)=>(
-                                <View style={styles.view3}>
-                                    <Icon name={item.iconName} type="antdesign" size={30} color="gray"></Icon>
+                            {item.map((item,index1)=>(
+                                <View style={item.iconFlag?styles.view4:styles.view3}>
+                                    <Icon onPress={() => this.clickSort(index1,section)} name={item.iconName} type="antdesign" size={30} color="gray"></Icon>
                                 </View>
                             ))}
-                            
                         </View>
                     }
                     renderSectionHeader={({section})=>
@@ -147,12 +163,23 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         borderBottomColor:'#cccccc'
     },
+    icon:{
+        width:40,
+        height:40,
+        backgroundColor:"#ffdb4d",
+        borderRadius:20,
+        paddingTop:8,
+        marginRight:15,
+        marginLeft:20,
+        marginTop:7,
+        marginBottom:7
+    },
     input:{
         color:'gray',
         marginLeft:20,
     },
     vie:{
-        marginBottom:50
+        marginBottom:230
     },
     view2:{
         flexDirection:'row',
@@ -165,14 +192,22 @@ const styles = StyleSheet.create({
         backgroundColor:"#f2f2f2",
         borderRadius:28,
         paddingTop:12,
-        marginRight:25,
-        marginBottom:10
+        marginRight:26,
+        marginTop:15
+    },
+    view4:{
+        width:56,
+        height:56,
+        backgroundColor:"#ffdb4d",
+        borderRadius:28,
+        paddingTop:12,
+        marginRight:26,
+        marginTop:15
     },
     text2:{
         textAlign:"center",
         marginTop:20,
-        marginBottom:15,
-        fontSize:18
+        fontSize:16
     }
 })
 // contentContainerStyle={styles.list}
