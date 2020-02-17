@@ -8,7 +8,7 @@ class SortAdd extends React.Component{
         this.state={
             flag:false,
             arr:[
-                {title:'娱乐',key:'娱乐',data:[
+                {title:'娱乐',key:'娱乐',data:[[
                     {iconName:"verticleleft",iconFlag:false},
                     {iconName:"verticleright",iconFlag:false},
                     {iconName:"team",iconFlag:false},
@@ -18,8 +18,8 @@ class SortAdd extends React.Component{
                     {iconName:"plussquareo",iconFlag:false},
                     {iconName:"clockcircleo",iconFlag:false},
                     {iconName:"dribbble",iconFlag:false},
-                ]},
-                {title:'饮食',key:'饮食',data:[
+                ]]},
+                {title:'饮食',key:'饮食',data:[[
                     {iconName:"link",iconFlag:false},
                     {iconName:"cloudo",iconFlag:false},
                     {iconName:"clouddownloado",iconFlag:false},
@@ -27,50 +27,50 @@ class SortAdd extends React.Component{
                     {iconName:"smileo",iconFlag:false},
                     {iconName:"hearto",iconFlag:false},
                     {iconName:"enviromento",iconFlag:false}
-                ]},
-                {title:'医疗',key:'医疗',data:[
+                ]]},
+                {title:'医疗',key:'医疗',data:[[
                     {iconName:"pushpino",iconFlag:false},
                     {iconName:"sharealt",iconFlag:false},
                     {iconName:"medicinebox",iconFlag:false}
-                ]},
-                {title:'学习',key:'学习',data:[
+                ]]},
+                {title:'学习',key:'学习',data:[[
                     {iconName:"profile",iconFlag:false},
                     {iconName:"switcher",iconFlag:false},
                     {iconName:"like2",iconFlag:false}
-                ]},
-                {title:'交通',key:'交通',data:[
+                ]]},
+                {title:'交通',key:'交通',data:[[
                     {iconName:"car",iconFlag:false},
                     {iconName:"notification",iconFlag:false}
-                ]},
-                {title:'购物',key:'购物',data:[
+                ]]},
+                {title:'购物',key:'购物',data:[[
                     {iconName:"shoppingcart",iconFlag:false},
                     {iconName:"save",iconFlag:false},
                     {iconName:"inbox",iconFlag:false},
                     {iconName:"windowso",iconFlag:false},
-                ]},
-                {title:'生活',key:'生活',data:[
+                ]]},
+                {title:'生活',key:'生活',data:[[
                     {iconName:"calendar",iconFlag:false},
                     {iconName:"isv",iconFlag:false},
                     {iconName:"tool",iconFlag:false}
-                ]},
-                {title:'家居',key:'家居',data:[
+                ]]},
+                {title:'家居',key:'家居',data:[[
                     {iconName:"tablet1",iconFlag:false},
                     {iconName:"key",iconFlag:false}
-                ]},
-                {title:'家庭',key:'家庭',data:[
+                ]]},
+                {title:'家庭',key:'家庭',data:[[
                     {iconName:"picture",iconFlag:false}
-                ]},
-                {title:'健身',key:'健身',data:[
+                ]]},
+                {title:'健身',key:'健身',data:[[
                     {iconName:"totop",iconFlag:false},
                     {iconName:"android",iconFlag:false},
-                ]},
-                {title:'收入',key:'收入',data:[
+                ]]},
+                {title:'收入',key:'收入',data:[[
                     {iconName:"shrink",iconFlag:false},
                     {iconName:"codesquareo",iconFlag:false},
                     {iconName:"swap",iconFlag:false},
                     {iconName:"lock",iconFlag:false},
-                ]},
-                {title:'其它',key:'其它',data:[
+                ]]},
+                {title:'其它',key:'其它',data:[[
                     {iconName:"calculator",iconFlag:false},
                     {iconName:"barchart",iconFlag:false},
                     {iconName:"disconnect",iconFlag:false},
@@ -78,7 +78,7 @@ class SortAdd extends React.Component{
                     {iconName:"bulb1",iconFlag:false},
                     {iconName:"message1",iconFlag:false},
                     {iconName:"wifi",iconFlag:false}
-                ]},
+                ]]},
             ]
         }
     }
@@ -109,14 +109,19 @@ class SortAdd extends React.Component{
                     <Icon></Icon>
                     <TextInput maxLength={3} clearTextOnFocus={true} style={styles.input} placeholder='请输入类别名称(不超过3个字)' placeholderTextColor='#cccccc'></TextInput>
                 </View>
-                <View>
-                    <SectionList sections={this.state.arr} renderItem={({item,index})=>
-                        <View>
-                            <Icon name={item.iconName} type="antdesign" size={22} color="gray"></Icon>
+                <View style={styles.vie}>
+                    <SectionList keyExtractor={(index) => index} sections={this.state.arr} renderItem={({item,index})=>
+                        <View style={styles.view2}>
+                            {item.map((item)=>(
+                                <View style={styles.view3}>
+                                    <Icon name={item.iconName} type="antdesign" size={30} color="gray"></Icon>
+                                </View>
+                            ))}
+                            
                         </View>
                     }
                     renderSectionHeader={({section})=>
-                        <Text>{section.title}</Text>
+                        <Text style={styles.text2}>{section.title}</Text>
                     }
                     />
                 </View>
@@ -145,6 +150,30 @@ const styles = StyleSheet.create({
     input:{
         color:'gray',
         marginLeft:20,
+    },
+    vie:{
+        marginBottom:50
+    },
+    view2:{
+        flexDirection:'row',
+        flexWrap: 'wrap',
+        paddingLeft:25
+    },
+    view3:{
+        width:56,
+        height:56,
+        backgroundColor:"#f2f2f2",
+        borderRadius:28,
+        paddingTop:12,
+        marginRight:25,
+        marginBottom:10
+    },
+    text2:{
+        textAlign:"center",
+        marginTop:20,
+        marginBottom:15,
+        fontSize:18
     }
 })
+// contentContainerStyle={styles.list}
 export default SortAdd;
