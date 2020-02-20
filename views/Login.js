@@ -8,7 +8,28 @@ class Login extends React.Component{
         this.state = {
           text: '',
           password:'',
-          show:false
+          show:false,
+          outArr:[
+            {iconName:"phone",sort:"话费",iconFlag:false},
+            {iconName:"book",sort:"学习",iconFlag:false},
+            {iconName:"team",sort:"聚餐",iconFlag:false},
+            {iconName:"car",sort:"加油费",iconFlag:false},
+            {iconName:"rest",sort:"饮料",iconFlag:false},
+            {iconName:"bank",sort:"房租",iconFlag:false},
+            {iconName:"apple-o",sort:"水果",iconFlag:false},
+            {iconName:"gift",sort:"礼物",iconFlag:false},
+            {iconName:"medicinebox",sort:"医疗",iconFlag:false},
+            {iconName:"customerservice",sort:"音乐",iconFlag:false},
+            {iconName:"contacts",sort:"人际",iconFlag:false},
+            {iconName:"smileo",sort:"零食",iconFlag:false},
+        ],
+        inArr:[
+            {iconName:"redenvelopes",sort:"工资",iconFlag:false},
+            {iconName:"clockcircleo",sort:"兼职",iconFlag:false},
+            {iconName:"bank",sort:"理财",iconFlag:false},
+            {iconName:"creditcard",sort:"礼金",iconFlag:false},
+            {iconName:"pay-circle-o1",sort:"其他",iconFlag:false},
+        ],
         }
       }
     goMy = ()=>{
@@ -17,6 +38,8 @@ class Login extends React.Component{
           // this.props.navigation.state.params.refresh();
             this.props.navigation.navigate('my');
             AsyncStorage.setItem('userName',this.state.text)
+            // AsyncStorage.setItem('outArrS',JSON.stringify(this.state.outArr))
+            // AsyncStorage.setItem('inArrS',JSON.stringify(this.state.inArr))
         }
         else{
           this.setState({ show: true})

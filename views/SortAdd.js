@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, FlatList,TextInput, SectionList} from 'react-native';
+import {View, Text, StyleSheet, FlatList,TextInput, SectionList,AsyncStorage} from 'react-native';
 
 class SortAdd extends React.Component{
     constructor(){
@@ -8,6 +8,7 @@ class SortAdd extends React.Component{
         this.state={
             flag:false,
             icon1:'verticleleft',
+            text:'',
             arr:[
                 {title:'娱乐',key:0,data:[[
                     {iconName:"verticleleft",iconFlag:true},
@@ -95,7 +96,22 @@ class SortAdd extends React.Component{
         console.log('fanhui')
     }
      //完成
-
+    finish1=async()=>{
+        let inArrN=JSON.parse(await AsyncStorage.getItem('inArrS'))
+        let outArrN=JSON.parse(await AsyncStorage.getItem('outArrS'))
+        if(this.state.flag){
+            inArrN.push({iconName:this.state.icon1,sort:this.state.text,iconFlag:false})
+            AsyncStorage.setItem('inArrS',JSON.stringify(inArrN))
+        }else{
+            outArrN.push({iconName:this.state.icon1,sort:this.state.text,iconFlag:false})
+            AsyncStorage.setItem('outArrS',JSON.stringify(outArrN))
+        }
+        this.props.navigation.goBack()
+    }
+    //输入框的值
+    handleChange = (value)=>{
+        this.setState({ text: value})
+    }
      //点击类别
      clickSort=(index1,section)=>{
         let clickArr=this.state.arr
@@ -118,13 +134,13 @@ class SortAdd extends React.Component{
                 <View style={styles.head}>
                     <Icon name="arrowleft" type="antdesign" onPress={this.bac}></Icon>
                     <Text style={styles.text1}>{this.state.flag?'添加收入类别':'添加支出类别'}</Text>
-                    <Text>完成</Text>
+                    <Text onPress={this.finish1}>完成</Text>
                 </View>
                 <View style={styles.view1}>
                     <View style={styles.icon}>
                         <Icon name={this.state.icon1} type="antdesign" size={24} color="gray"></Icon>
                     </View>
-                    <TextInput maxLength={3} clearTextOnFocus={true} style={styles.input} placeholder='请输入类别名称(不超过3个字)' placeholderTextColor='#cccccc'></TextInput>
+                    <TextInput maxLength={3} clearTextOnFocus={true} style={styles.input} placeholder='请输入类别名称(不超过3个字)' placeholderTextColor='#cccccc' onChangeText={this.handleChange} value={this.state.text}></TextInput>
                 </View>
                 <View style={styles.vie}>
                     <SectionList keyExtractor={(item,index) => index} sections={this.state.arr} renderItem={({item,index,section})=>

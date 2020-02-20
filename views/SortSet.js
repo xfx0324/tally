@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList,AsyncStorage} from 'react-native';
 import Swipeout from 'react-native-swipeout';
 
 class SortSet extends React.Component{
@@ -8,55 +8,49 @@ class SortSet extends React.Component{
         super();
         this.state={
             flag:false,
-            outArr:[
-                {iconName:"phone",sort:"话费",iconFlag:false},
-                {iconName:"book",sort:"学习",iconFlag:false},
-                {iconName:"team",sort:"聚餐",iconFlag:false},
-                {iconName:"car",sort:"加油费",iconFlag:false},
-                {iconName:"rest",sort:"饮料",iconFlag:false},
-                {iconName:"bank",sort:"房租",iconFlag:false},
-                {iconName:"apple-o",sort:"水果",iconFlag:false},
-                {iconName:"gift",sort:"礼物",iconFlag:false},
-                {iconName:"medicinebox",sort:"医疗",iconFlag:false},
-                {iconName:"customerservice",sort:"音乐",iconFlag:false},
-                {iconName:"contacts",sort:"人际",iconFlag:false},
-                {iconName:"smileo",sort:"零食",iconFlag:false},
-            ],
-            inArr:[
-                {iconName:"redenvelopes",sort:"工资",iconFlag:false},
-                {iconName:"clockcircleo",sort:"兼职",iconFlag:false},
-                {iconName:"bank",sort:"理财",iconFlag:false},
-                {iconName:"creditcard",sort:"礼金",iconFlag:false},
-                {iconName:"pay-circle-o1",sort:"其他",iconFlag:false},
-            ],
+            outArr:[],
+            inArr:[],
         }
     }
     //根据路由参数判断是支出设置跳转还是收入设置跳转
     getFlag=()=>{
         let a=this.props.navigation.state.params.clickSort
         this.setState({flag:a})
-        console.log(a)
+        // console.log(a)
+    }
+    //读取缓存的收入/支出类别
+    getArr=async()=>{
+        let inArrN=await AsyncStorage.getItem('inArrS')
+        let outArrN=await AsyncStorage.getItem('outArrS')
+        this.setState({inArr:JSON.parse(inArrN)})
+        this.setState({outArr:JSON.parse(outArrN)})
+        console.log(1,this.state.outArr)
     }
     //支出view
     outMoney=()=>{
         this.setState({flag:false})
-        console.log("支出1")
+        // console.log("支出1")
     }
     //收入view
     inMoney=()=>{
         this.setState({flag:true})
-        console.log("收入1")
+        // console.log("收入1")
     }
   //删除
     dele=(index)=>{
         if(this.state.flag){
             let deleInArr=this.state.inArr
             deleInArr.splice(index,1)
-            this.setState({inArr:deleInArr})
+            this.setState({inArr:deleInArr},()=>{
+                AsyncStorage.setItem('inArrS',JSON.stringify(this.state.inArr))
+            })
+
         }else{
             let deleOutArr=this.state.outArr
             deleOutArr.splice(index,1)
-            this.setState({outArr:deleOutArr})
+            this.setState({outArr:deleOutArr},()=>{
+                AsyncStorage.setItem('outArrS',JSON.stringify(this.state.outArr))
+            })
         }
     }
     //去添加 收入／支出 类别
@@ -65,6 +59,7 @@ class SortSet extends React.Component{
     }
     componentDidMount() {
         this.getFlag();
+        this.getArr()
       }
     render(){
         // let swipeoutBtns = [{

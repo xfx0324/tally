@@ -1,35 +1,23 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList,AsyncStorage} from 'react-native';
 
 class Tally extends React.Component{
     constructor(){
         super();
         this.state={
-            outArr:[
-                {key:0,iconName:"phone",sort:"话费",iconFlag:false},
-                {key:1,iconName:"book",sort:"学习",iconFlag:false},
-                {key:2,iconName:"team",sort:"聚餐",iconFlag:false},
-                {key:3,iconName:"car",sort:"加油费",iconFlag:false},
-                {key:4,iconName:"rest",sort:"饮料",iconFlag:false},
-                {key:5,iconName:"bank",sort:"房租",iconFlag:false},
-                {key:6,iconName:"apple-o",sort:"水果",iconFlag:false},
-                {key:7,iconName:"gift",sort:"礼物",iconFlag:false},
-                {key:8,iconName:"medicinebox",sort:"医疗",iconFlag:false},
-                {key:9,iconName:"customerservice",sort:"音乐",iconFlag:false},
-                {key:10,iconName:"contacts",sort:"人际",iconFlag:false},
-                {key:11,iconName:"smileo",sort:"零食",iconFlag:false},
-            ],
-            inArr:[
-                {key:0,iconName:"redenvelopes",sort:"工资",iconFlag:false},
-                {key:1,iconName:"clockcircleo",sort:"兼职",iconFlag:false},
-                {key:2,iconName:"bank",sort:"理财",iconFlag:false},
-                {key:3,iconName:"creditcard",sort:"礼金",iconFlag:false},
-                {key:4,iconName:"pay-circle-o1",sort:"其他",iconFlag:false},
-            ],
+            outArr:[],
+            inArr:[],
             style1:'styles.iconV',
             flag:false,
         }
+    }
+    //读取缓存的收入/支出类别
+    getArr=async()=>{
+        let inArrN=await AsyncStorage.getItem('inArrS')
+        let outArrN=await AsyncStorage.getItem('outArrS')
+        this.setState({inArr:JSON.parse(inArrN)})
+        this.setState({outArr:JSON.parse(outArrN)})
     }
     //选择支出类型
     // selectSortOut= (index) => {
@@ -41,6 +29,7 @@ class Tally extends React.Component{
     //     this.setState({outArr:seleOutArr})
     //     console.log("out",index)
     // }
+    
     //选择收入/支出类型
     selectSort= (index,fl) => {
         if(fl){
@@ -82,6 +71,9 @@ class Tally extends React.Component{
         this.props.navigation.navigate('sortSet',{clickSort:sort})
         console.log('支出设置')
     }
+    componentDidMount() {
+        this.getArr();
+      }
     //收入类型设置
     // setSortIn=()=>{
     //     console.log('收入设置')
