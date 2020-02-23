@@ -30,6 +30,8 @@ class Login extends React.Component{
             {iconName:"creditcard",sort:"礼金",iconFlag:false},
             {iconName:"pay-circle-o1",sort:"其他",iconFlag:false},
         ],
+        inTally:[],
+        outTally:[],
         }
       }
     goMy = ()=>{
@@ -40,6 +42,8 @@ class Login extends React.Component{
             AsyncStorage.setItem('userName',this.state.text)
             // AsyncStorage.setItem('outArrS',JSON.stringify(this.state.outArr))
             // AsyncStorage.setItem('inArrS',JSON.stringify(this.state.inArr))
+            // AsyncStorage.setItem('outTallyS',JSON.stringify(this.state.outTally))
+             AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.inTally))
         }
         else{
           this.setState({ show: true})

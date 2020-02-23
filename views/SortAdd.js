@@ -99,14 +99,19 @@ class SortAdd extends React.Component{
     finish1=async()=>{
         let inArrN=JSON.parse(await AsyncStorage.getItem('inArrS'))
         let outArrN=JSON.parse(await AsyncStorage.getItem('outArrS'))
-        if(this.state.flag){
-            inArrN.push({iconName:this.state.icon1,sort:this.state.text,iconFlag:false})
-            AsyncStorage.setItem('inArrS',JSON.stringify(inArrN))
+        if(this.state.text!=''){
+            if(this.state.flag){
+                inArrN.push({iconName:this.state.icon1,sort:this.state.text,iconFlag:false})
+                AsyncStorage.setItem('inArrS',JSON.stringify(inArrN))
+            }else{
+                outArrN.push({iconName:this.state.icon1,sort:this.state.text,iconFlag:false})
+                AsyncStorage.setItem('outArrS',JSON.stringify(outArrN))
+            }
+            this.props.navigation.goBack()
         }else{
-            outArrN.push({iconName:this.state.icon1,sort:this.state.text,iconFlag:false})
-            AsyncStorage.setItem('outArrS',JSON.stringify(outArrN))
+            alert('请填写类别')
         }
-        this.props.navigation.goBack()
+        
     }
     //输入框的值
     handleChange = (value)=>{

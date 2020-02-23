@@ -39,6 +39,7 @@ class My extends React.Component{
     //退出登录，清除缓存
     exitLogin=()=>{
         AsyncStorage.removeItem('userName')
+        AsyncStorage.removeItem('inTallyS')
         this.setState({name:"请点击头像登录"})
         this.setState({index:1})
         this.setState({flag:false})

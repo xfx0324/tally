@@ -1,20 +1,22 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen'
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, Button, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Button, ScrollView,AsyncStorage,FlatList} from 'react-native';
 import Picker from 'react-native-picker';
 import Swipeout from 'react-native-swipeout';
 class Detail extends React.Component{
     constructor(){
         super();
         this.state={
-            dataN:[2020,2]
+            dataN:[2020,2],
+            tallyArr:[]
         }
     }
-    componentDidMount(){
-        setTimeout(() => {
-            SplashScreen.hide();
-          },1200)
+    //缓存读取记账明细数组
+    getTallyArr=async()=>{
+        let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
+        this.setState({tallyArr:tallyArrN})
+        console.log(tallyArrN)
     }
     selectDate = () => {
         let pickerData = [];
@@ -46,10 +48,15 @@ class Detail extends React.Component{
         })
         Picker.show();
       }
+      componentDidMount(){
+        setTimeout(() => {
+            SplashScreen.hide();
+          },1200)
+          this.getTallyArr();
+    }
     render(){
         return (
         <View>
-            <ScrollView>
             <View style={styles.view1}>
                 <View style={styles.view2}>
                     <Text style={styles.title}>鲨鱼记账</Text>
@@ -71,9 +78,13 @@ class Detail extends React.Component{
                 </View>    
             </View>
             <View>
-                <Text>明细1</Text>
+                <FlatList keyExtractor={(item, index) => index} extraData={this.state} data={this.state.tallyArr} renderItem={(item,index)=>
+                    <View>
+                        
+                    </View>
+                
+                }/>
             </View>
-            </ScrollView>
         </View>)
     }
 }

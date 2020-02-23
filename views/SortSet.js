@@ -44,7 +44,6 @@ class SortSet extends React.Component{
             this.setState({inArr:deleInArr},()=>{
                 AsyncStorage.setItem('inArrS',JSON.stringify(this.state.inArr))
             })
-
         }else{
             let deleOutArr=this.state.outArr
             deleOutArr.splice(index,1)
@@ -75,7 +74,7 @@ class SortSet extends React.Component{
                     <Text style={this.state.flag?styles.text4:styles.text3} onPress={this.inMoney}>收入</Text>
                 </View>
                     <View style={styles.view1}>
-                        <FlatList extraData={this.state} ItemSeparatorComponent={() => <View style={{height:1,backgroundColor: '#f0f0f5'}}/>} data={this.state.flag?this.state.inArr:this.state.outArr} renderItem={({item,index}) =>
+                        <FlatList keyExtractor={(item, index) => index} extraData={this.state} ItemSeparatorComponent={() => <View style={{height:1,backgroundColor: '#f0f0f5'}}/>} data={this.state.flag?this.state.inArr:this.state.outArr} renderItem={({item,index}) =>
                             <Swipeout autoClose={true} right={[{ text: '删除',type: 'delete',onPress:()=>this.dele(index)}]}>
                             <View style={styles.view2}>
                                 <Icon name="minuscircle" type="antdesign" size={18} color="red"></Icon>
