@@ -1,7 +1,7 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen'
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, Button, ScrollView,AsyncStorage,FlatList} from 'react-native';
+import {View, Text, StyleSheet, Button, ScrollView,AsyncStorage, SectionList} from 'react-native';
 import Picker from 'react-native-picker';
 import Swipeout from 'react-native-swipeout';
 class Detail extends React.Component{
@@ -9,15 +9,32 @@ class Detail extends React.Component{
         super();
         this.state={
             dataN:[2020,2],
+            in1:0,
+            out1:0,
             tallyArr:[]
         }
     }
     //缓存读取记账明细数组
     getTallyArr=async()=>{
         let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
-        this.setState({tallyArr:tallyArrN})
-        console.log(tallyArrN)
+        let tallySearch=[]
+        let in1Sum=0
+        let out1Sum=0
+        for(let i=0;i<tallyArrN.length;i++){
+            if(this.state.dataN[0]==tallyArrN[i].year&&this.state.dataN[1]==tallyArrN[i].month){
+                tallySearch.push(tallyArrN[i])
+            }
+        }
+        for(let j=0;j<tallySearch.length;j++){
+            in1Sum+=tallySearch[j].dayIn
+            out1Sum+=tallySearch[j].dayOut
+        }
+        this.setState({in1:in1Sum}) //选择月份的总收入
+        this.setState({out1:out1Sum})//选择月份的总支出
+        this.setState({tallyArr:tallySearch})
+        console.log(tallySearch)
     }
+    
     selectDate = () => {
         let pickerData = [];
         let year = [];
@@ -73,18 +90,29 @@ class Detail extends React.Component{
                 <View style={styles.row}>
                     <Text style={styles.cen1}>{this.state.dataN[1]}月</Text>
                     <Icon name="caretdown" type="antdesign" size={16} color="#696969" onPress={this.selectDate}></Icon>
-                    <Text style={styles.cen2}>20.00</Text>
-                    <Text style={styles.cen}>10.00</Text>
+                    <Text style={styles.cen2}>{(this.state.in1).toFixed(2)}</Text>
+                    <Text style={styles.cen}>{(this.state.out1).toFixed(2)}</Text>
                 </View>    
             </View>
-            <View>
-                <FlatList keyExtractor={(item, index) => index} extraData={this.state} data={this.state.tallyArr} renderItem={(item,index)=>
-                    <View>
-                        
+            <View style={styles.list}>
+                <SectionList keyExtractor={(item, index) => index} extraData={this.state} sections={this.state.tallyArr} ItemSeparatorComponent={() => <View style={{height:1,marginLeft:50,backgroundColor:'#e6e6e6'}}/>} renderItem={({item,index})=>
+                    <View style={styles.list1}>
+                        <View style={styles.iconV}>
+                            <Icon name={item.iconName} type="antdesign" size={20} color="gray"></Icon>
+                        </View>
+                        <Text style={styles.text1}>{item.sort}</Text>
+                        <Text style={styles.text2}>{item.type=='支出'?'-'+(item.money):(item.money)}</Text>
+                    </View>}
+                    renderSectionHeader={({section})=>
+                    <View style={styles.list2}>
+                        <Text style={styles.text3}>{section.title}</Text>
+                        <Text style={styles.text4}>{section.week}</Text>
+                        <Text style={styles.text5}>收入:{section.dayIn}</Text>
+                        <Text style={styles.text6}>支出:{section.dayOut}</Text>
                     </View>
-                
-                }/>
-            </View>
+                    }
+                />
+            </View> 
         </View>)
     }
 }
@@ -122,8 +150,60 @@ const styles = StyleSheet.create({
         fontSize:16,
         marginLeft:86,
         marginRight:90
+    },
+    list:{
+        marginTop:12
+    },
+    list1:{
+        marginTop:10,
+        marginBottom:5,
+        flexDirection:'row',
+    },
+    list2:{
+        flexDirection:'row',
+        borderBottomWidth:1,
+        borderBottomColor:'#e6e6e6',
+        paddingBottom:10,
+        paddingTop:10
+    },
+    iconV:{
+        backgroundColor:'#ffdb4d',
+        width:26,
+        height:26,
+        paddingTop:3,
+        borderRadius:13,
+        marginRight:15,
+        marginLeft:15
+    },
+    text1:{
+        
+    },
+    text2:{
+        marginLeft:320
+    },
+    text3:{
+        color:'#a6a6a6',
+        fontSize:13,
+        paddingLeft:15,
+        paddingRight:10
+    },
+    text4:{
+        color:'#a6a6a6',
+        fontSize:13,
+    },
+    text5:{
+        color:'#a6a6a6',
+        fontSize:13,
+        textAlign:"right",
+        width:60,
+        textAlign:'left',
+        marginLeft:210,
+        marginRight:10
+    },
+    text6:{
+        color:'#a6a6a6',
+        fontSize:13,
+        textAlign:"right"
     }
-
 })
-
 export default Detail;

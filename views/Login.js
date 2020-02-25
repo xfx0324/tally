@@ -43,7 +43,7 @@ class Login extends React.Component{
             // AsyncStorage.setItem('outArrS',JSON.stringify(this.state.outArr))
             // AsyncStorage.setItem('inArrS',JSON.stringify(this.state.inArr))
             // AsyncStorage.setItem('outTallyS',JSON.stringify(this.state.outTally))
-             AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.inTally))
+            // AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.inTally))
         }
         else{
           this.setState({ show: true})
