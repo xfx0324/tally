@@ -65,6 +65,38 @@ class Detail extends React.Component{
         })
         Picker.show();
       }
+      //删除单条记录
+      dele=(index,section)=>{
+        let deleC=this.state.tallyArr
+        let i=deleC.indexOf(section)
+        if(section.data.length==1){
+            deleC.splice(i,1)
+            this.setState({tallyArr:deleC},()=>{
+                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+            })
+        }else{
+            if(deleC[i].data[index].type=='支出'){
+                deleC[i].dayOut-=deleC[i].data[index].money
+            }
+            else if(deleC[i].data[index].type=='收入'){
+                deleC[i].dayIn-=deleC[i].data[index].money
+            }
+            deleC[i].data.splice(index,1)
+            this.setState({tallyArr:deleC},()=>{
+                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+            })
+        }
+        
+      }
+      //删除整天记录
+      deleA=(section)=>{
+        let deleC=this.state.tallyArr
+        let i=deleC.indexOf(section)
+        deleC.splice(i,1)
+            this.setState({tallyArr:deleC},()=>{
+                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+            })
+    }
       componentDidMount(){
         setTimeout(() => {
             SplashScreen.hide();
@@ -95,22 +127,25 @@ class Detail extends React.Component{
                 </View>    
             </View>
             <View style={styles.list}>
-                <SectionList keyExtractor={(item, index) => index} extraData={this.state} sections={this.state.tallyArr} ItemSeparatorComponent={() => <View style={{height:1,marginLeft:50,backgroundColor:'#e6e6e6'}}/>} renderItem={({item,index})=>
+                <SectionList keyExtractor={(item, index) => index} extraData={this.state} sections={this.state.tallyArr} ItemSeparatorComponent={() => <View style={{height:1,marginLeft:50,backgroundColor:'#e6e6e6'}}/>} renderItem={({item,index,section})=>
+                <Swipeout style={styles.swi} autoClose={true} right={[{ text: '删除',type: 'delete',onPress:()=>this.dele(index,section)}]}>
                     <View style={styles.list1}>
                         <View style={styles.iconV}>
                             <Icon name={item.iconName} type="antdesign" size={20} color="gray"></Icon>
                         </View>
                         <Text style={styles.text1}>{item.sort}</Text>
                         <Text style={styles.text2}>{item.type=='支出'?'-'+(item.money):(item.money)}</Text>
-                    </View>}
+                    </View>
+                    </Swipeout>}
                     renderSectionHeader={({section})=>
+                    <Swipeout style={styles.swi} autoClose={true} right={[{ text: '删除',type: 'delete',onPress:()=>this.deleA(section)}]}>
                     <View style={styles.list2}>
                         <Text style={styles.text3}>{section.title}</Text>
                         <Text style={styles.text4}>{section.week}</Text>
                         <Text style={styles.text5}>收入:{section.dayIn}</Text>
                         <Text style={styles.text6}>支出:{section.dayOut}</Text>
                     </View>
-                    }
+                    </Swipeout>}
                 />
             </View> 
         </View>)
@@ -154,6 +189,9 @@ const styles = StyleSheet.create({
     list:{
         marginTop:12
     },
+    swi:{
+        backgroundColor:'white'
+    },
     list1:{
         marginTop:10,
         marginBottom:5,
@@ -164,7 +202,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         borderBottomColor:'#e6e6e6',
         paddingBottom:10,
-        paddingTop:10
+        paddingTop:10,
     },
     iconV:{
         backgroundColor:'#ffdb4d',
