@@ -111,10 +111,10 @@ class Tally extends React.Component{
       }
       //完成记账
       finishTally=async()=>{
-          console.log(22222)
         let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'));
         let index;
-        let flag1=false;
+        let flag1=false; //选择记账的这天是否已经有记录
+        //根据选择的日期判断是星期几
         let date1=new Date(this.state.dataN[0],this.state.dataN[1]-1,this.state.dataN[2])
         let weekday=new Array(7);
         weekday[0]="星期天";
@@ -125,15 +125,14 @@ class Tally extends React.Component{
         weekday[5]="星期五";
         weekday[6]="星期六";
         let n = weekday[date1.getDay()];
-        console.log(n)
-        //let outTallyN=JSON.parse(await AsyncStorage.getItem('outTallyS'))
+        //遍历数组看选择记账的这天是否已经有记录
         for(let i=0;i<tallyArrN.length;i++){
             if((tallyArrN[i].title==(this.state.dataN[1]+'月'+this.state.dataN[2]+'日'))&&(tallyArrN[i].year==this.state.dataN[0])){
                 flag1=true
                 index=i
             }
         }
-        //this.state.flag为true是收入类型
+        //this.state.flag为true是收入类型，并且输入金额不能为空，如果为空不会添加数据
         if(this.state.flag&&this.state.text!=''){
             //flag1为true，数组中有这一天的记录，只需在这一天的data数组中加一条数据，不需要增加新的一天的记录
             if(flag1){
@@ -155,7 +154,30 @@ class Tally extends React.Component{
                 AsyncStorage.setItem('inTallyS',JSON.stringify(tallyArrN))
             }
         }
+        //完成之后输入框隐藏
         this.setState({flagClick:false})
+        //完成之后输入金额清空
+        this.setState({ text:''})
+        //完成之后图标点击的黄色背景去掉
+        if(this.state.flag){
+            let seleInArr=this.state.inArr
+            for(let i=0;i<seleInArr.length;i++){
+                if(seleInArr[i].iconName==this.state.nameClick){
+                    seleInArr[i].iconFlag=false
+                    this.setState({inArr:seleInArr})
+                }
+            }
+        }
+        else{
+            let seleOutArr=this.state.outArr
+            for(let i=0;i<seleOutArr.length;i++){
+                if(seleOutArr[i].iconName==this.state.nameClick){
+                    seleOutArr[i].iconFlag=false
+                    this.setState({outArr:seleOutArr})
+                }    
+        }
+        }
+
         console.log(this.state.flagClick)
       }
     //类型设置
