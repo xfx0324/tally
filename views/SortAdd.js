@@ -93,7 +93,6 @@ class SortAdd extends React.Component{
     //返回
     bac=()=>{
         this.props.navigation.goBack()
-        console.log('fanhui')
     }
      //完成
     finish1=async()=>{

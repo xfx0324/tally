@@ -18,6 +18,7 @@ import Detail from './views/Detail';
 import Found from './views/Found';
 import My from './views/My';
 import Tally from './views/Tally';
+import YearReport from './views/YearReport';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -87,10 +88,25 @@ const routes1={
     }
   }
 }
+const routes2={
+  found:{
+    screen: Found,
+    navigationOptions: {
+      header:null,
+    }
+  },
+  yearReport:{
+    screen:YearReport,
+    navigationOptions: {
+      header:null,
+    }
+  }
+}
 // 参数1：必须的，路由配置对象，是从路由名称到路由配置的映射，它告诉导航器该路由呈现的内容。
 // 参数2：可选的，路由选项配置对象
 const stackNav = createStackNavigator(routes);
 const stackNav1 = createStackNavigator(routes1);
+const stackNav2 = createStackNavigator(routes2);
 // routes1.navigationOptions=({ navigation }) => {
 //   let tabBarVisible = true;
 //   if (navigation.state.index > 0) {
@@ -124,7 +140,7 @@ const bottomRoutes = {
     }
   },
   发现: {
-    screen: Found,
+    screen: stackNav2,
     navigationOptions: {
       tabBarIcon: ({tintColor})=>(<Icon name="find" type="antdesign" color={tintColor}></Icon>),
       tabBarLabel: '发现'

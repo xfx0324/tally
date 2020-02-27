@@ -126,14 +126,16 @@ class Tally extends React.Component{
         weekday[6]="星期六";
         let n = weekday[date1.getDay()];
         console.log(n)
-        let outTallyN=JSON.parse(await AsyncStorage.getItem('outTallyS'))
+        //let outTallyN=JSON.parse(await AsyncStorage.getItem('outTallyS'))
         for(let i=0;i<tallyArrN.length;i++){
             if((tallyArrN[i].title==(this.state.dataN[1]+'月'+this.state.dataN[2]+'日'))&&(tallyArrN[i].year==this.state.dataN[0])){
                 flag1=true
                 index=i
             }
         }
-        if(this.state.flag){
+        //this.state.flag为true是收入类型
+        if(this.state.flag&&this.state.text!=''){
+            //flag1为true，数组中有这一天的记录，只需在这一天的data数组中加一条数据，不需要增加新的一天的记录
             if(flag1){
                 tallyArrN[index].dayIn+=Number(this.state.text)
                 tallyArrN[index].data.push({iconName:this.state.nameClick,sort:this.state.sortClick,type:'收入',money:Number(this.state.text)})
@@ -143,7 +145,7 @@ class Tally extends React.Component{
                 AsyncStorage.setItem('inTallyS',JSON.stringify(tallyArrN))
             }
         }
-        else{
+        else if(!this.state.flag&&this.state.text!=''){
             if(flag1){
                 tallyArrN[index].dayOut+=Number(this.state.text)
                 tallyArrN[index].data.push({iconName:this.state.nameClick,sort:this.state.sortClick,type:'支出',money:Number(this.state.text)})
