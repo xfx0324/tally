@@ -25,7 +25,6 @@ class YearReport extends React.Component{
         }
         //得到年度每个月的收入／支出
         let monthArr=[] //根据选择年份按月份的收入支出数组
-        
         for(let i=1;i<13;i++){
             let monthIn=0;
             let monthOut=0;
@@ -69,6 +68,7 @@ class YearReport extends React.Component{
           pickerTitleText: '选择年',
           onPickerConfirm: data => {
             this.setState({year1:data})
+            this.yearData()
           },
         })
         Picker.show();

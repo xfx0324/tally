@@ -55,6 +55,7 @@ class Detail extends React.Component{
           pickerTitleText: '选择年月',
           onPickerConfirm: data => {
             this.setState({dataN:data})
+            this.getTallyArr()
           },
         //   onPickerCancel: data => {
         //     console.log('取消：', data);
@@ -73,6 +74,7 @@ class Detail extends React.Component{
             deleC.splice(i,1)
             this.setState({tallyArr:deleC},()=>{
                 AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+                this.getTallyArr()
             })
         }else{
             if(deleC[i].data[index].type=='支出'){
@@ -84,6 +86,7 @@ class Detail extends React.Component{
             deleC[i].data.splice(index,1)
             this.setState({tallyArr:deleC},()=>{
                 AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+                this.getTallyArr()
             })
         }
         
@@ -95,6 +98,7 @@ class Detail extends React.Component{
         deleC.splice(i,1)
             this.setState({tallyArr:deleC},()=>{
                 AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+                this.getTallyArr()
             })
     }
       componentDidMount(){
@@ -102,6 +106,10 @@ class Detail extends React.Component{
             SplashScreen.hide();
           },1200)
           this.getTallyArr();
+    }
+    shouldComponentUpdate(){
+        // this.getTallyArr();
+        return true; 
     }
     render(){
         return (
