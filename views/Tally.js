@@ -13,7 +13,7 @@ class Tally extends React.Component{
             nameClick:'',//点击的图标名称
             sortClick:'',//点击的图标类别名称
             text:'',//输入框支出或着收入的金额
-            dataN:['2020','2','1'],
+            dataN:['2020','3','1'],
         }
 
     }
@@ -99,7 +99,7 @@ class Tally extends React.Component{
         pickerData.push(day);
         Picker.init({
           pickerData: pickerData,
-          selectedValue: ['2020', '2','1'],
+          selectedValue: ['2020', '3','1'],
           pickerConfirmBtnText: '确定',
           pickerCancelBtnText: '取消',
           pickerTitleText: '选择年月日',
@@ -181,8 +181,14 @@ class Tally extends React.Component{
         console.log(this.state.flagClick)
       }
     //类型设置
-    setSort=(sort)=>{
-        this.props.navigation.navigate('sortSet',{clickSort:sort})
+    setSort=async(sort)=>{
+        let nameN=await AsyncStorage.getItem('userName')
+        if(nameN){
+            this.props.navigation.navigate('sortSet',{clickSort:sort})
+        }
+        else{
+            this.props.navigation.navigate('login')
+        }
         console.log('支出设置')
     }
     componentDidMount() {

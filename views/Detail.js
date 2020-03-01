@@ -8,31 +8,40 @@ class Detail extends React.Component{
     constructor(){
         super();
         this.state={
-            dataN:[2020,2],
+            dataN:[2020,3],
             in1:0,
             out1:0,
-            tallyArr:[]
+            tallyArr:[],
+            flag:false,//是否登录
         }
     }
     //缓存读取记账明细数组
     getTallyArr=async()=>{
-        let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
-        let tallySearch=[]
-        let in1Sum=0
-        let out1Sum=0
-        for(let i=0;i<tallyArrN.length;i++){
-            if(this.state.dataN[0]==tallyArrN[i].year&&this.state.dataN[1]==tallyArrN[i].month){
+        let nameN=await AsyncStorage.getItem('userName')
+        //如果已经登录就读取缓存的记账数据
+        if(nameN){
+            let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
+            let tallySearch=[]
+            let in1Sum=0
+            let out1Sum=0
+            for(let i=0;i<tallyArrN.length;i++){
+                if(this.state.dataN[0]==tallyArrN[i].year&&this.state.dataN[1]==tallyArrN[i].month){
                 tallySearch.push(tallyArrN[i])
+                }
             }
+            for(let j=0;j<tallySearch.length;j++){
+                in1Sum+=tallySearch[j].dayIn
+                out1Sum+=tallySearch[j].dayOut
+            }
+            this.setState({in1:in1Sum}) //选择月份的总收入
+            this.setState({out1:out1Sum})//选择月份的总支出
+            this.setState({tallyArr:tallySearch})
+            console.log(tallySearch)
         }
-        for(let j=0;j<tallySearch.length;j++){
-            in1Sum+=tallySearch[j].dayIn
-            out1Sum+=tallySearch[j].dayOut
+        else{
+            this.setState({flag:true})
         }
-        this.setState({in1:in1Sum}) //选择月份的总收入
-        this.setState({out1:out1Sum})//选择月份的总支出
-        this.setState({tallyArr:tallySearch})
-        console.log(tallySearch)
+        
     }
     
     selectDate = () => {
@@ -49,7 +58,7 @@ class Detail extends React.Component{
         pickerData.push(month);
         Picker.init({
           pickerData: pickerData,
-          selectedValue: ['2020', '2'],
+          selectedValue: ['2020', '3'],
           pickerConfirmBtnText: '确定',
           pickerCancelBtnText: '取消',
           pickerTitleText: '选择年月',
@@ -134,8 +143,17 @@ class Detail extends React.Component{
                     <Text style={styles.cen}>{(this.state.out1).toFixed(2)}</Text>
                 </View>    
             </View>
-            <View style={styles.list}>
-                <SectionList keyExtractor={(item, index) => index} extraData={this.state} sections={this.state.tallyArr} ItemSeparatorComponent={() => <View style={{height:1,marginLeft:50,backgroundColor:'#e6e6e6'}}/>} renderItem={({item,index,section})=>
+            {this.state.flag?(
+                <View>
+                    <Text style={styles.no}>登录后数据可以实时备份，更安全哦</Text>
+                    <View style={{flex:1,marginTop:140,alignItems:'center'}}>
+                        <Icon name='filetext1' type='antdesign' size={30} color="gray"></Icon>
+                        <Text style={styles.no1}>暂无数据</Text>
+                    </View>  
+                </View>):(
+                <View style={styles.list}>
+                    <SectionList keyExtractor={(item, index) => index} extraData={this.state} sections={this.state.tallyArr} ItemSeparatorComponent={() => <View style={{height:1,marginLeft:50,backgroundColor:'#e6e6e6'}}/>} ListEmptyComponent={()=><View style={{flex:1,marginTop:150,alignItems:'center'}}><Icon name='filetext1' type='antdesign' size={30} color="gray"></Icon><Text>暂无数据</Text></View>}
+                renderItem={({item,index,section})=>
                 <Swipeout style={styles.swi} autoClose={true} right={[{ text: '删除',type: 'delete',onPress:()=>this.dele(index,section)}]}>
                     <View style={styles.list1}>
                         <View style={styles.iconV}>
@@ -156,6 +174,8 @@ class Detail extends React.Component{
                     </Swipeout>}
                 />
             </View> 
+            )}
+            
         </View>)
     }
 }
@@ -193,6 +213,16 @@ const styles = StyleSheet.create({
         fontSize:16,
         marginLeft:86,
         marginRight:90
+    },
+    no:{
+        backgroundColor:'#ffffe5',
+        paddingTop:10,
+        paddingBottom:10,
+        paddingLeft:20,
+        color:'#ff5050'
+    },
+    no1:{
+        marginTop:20
     },
     list:{
         marginTop:12

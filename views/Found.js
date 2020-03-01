@@ -14,29 +14,39 @@ class Found extends React.Component{
     }
     //缓存读取记账明细数组
     getTallyArr=async()=>{
-        let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
-        let d = new Date();
-        let year=d.getFullYear()//当前年份
-        this.setState({month:d.getMonth()+1}) //当前月份
-        let tallySearch=[]
-        let in1Sum=0
-        let out1Sum=0
-        //得到当前月的数组
-        for(let i=0;i<tallyArrN.length;i++){
-            if(year==tallyArrN[i].year&&this.state.month==tallyArrN[i].month){
-                tallySearch.push(tallyArrN[i])
+        let nameN=await AsyncStorage.getItem('userName')
+        if(nameN){
+            let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
+            let d = new Date();
+            let year=d.getFullYear()//当前年份
+            this.setState({month:d.getMonth()+1}) //当前月份
+            let tallySearch=[]
+            let in1Sum=0
+            let out1Sum=0
+            //得到当前月的数组
+            for(let i=0;i<tallyArrN.length;i++){
+                if(year==tallyArrN[i].year&&this.state.month==tallyArrN[i].month){
+                    tallySearch.push(tallyArrN[i])
+                }
             }
+            for(let j=0;j<tallySearch.length;j++){
+                in1Sum+=tallySearch[j].dayIn
+                out1Sum+=tallySearch[j].dayOut
+            }
+            this.setState({inMoney:in1Sum}) //当前月份的总收入
+            this.setState({outMoney:out1Sum})//当前月份的总支出
         }
-        for(let j=0;j<tallySearch.length;j++){
-            in1Sum+=tallySearch[j].dayIn
-            out1Sum+=tallySearch[j].dayOut
-        }
-        this.setState({inMoney:in1Sum}) //当前月份的总收入
-        this.setState({outMoney:out1Sum})//当前月份的总支出
+        
     }
     //查询年度账单
-    searchYear=()=>{
-        this.props.navigation.navigate('yearReport')
+    searchYear=async()=>{
+        let nameN=await AsyncStorage.getItem('userName')
+        if(nameN){
+            this.props.navigation.navigate('yearReport')
+        }
+        else{
+            this.props.navigation.navigate('login')
+        }
     }
     componentDidMount(){
         this.getTallyArr();

@@ -45,7 +45,7 @@ const routes = {
     // 渲染的屏幕
     screen: Login,
     navigationOptions: {
-      title: '登录'
+      header:null,
     }
   }
 }
