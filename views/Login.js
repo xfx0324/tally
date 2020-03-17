@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {View, TextInput, Button,Text,StyleSheet, TouchableOpacity, AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import {View, TextInput, Button,Text,StyleSheet, TouchableOpacity} from 'react-native';
 
 class Login extends React.Component{
     constructor(){

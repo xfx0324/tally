@@ -1,6 +1,6 @@
 import React from 'react';
-
-import {View, Text,StyleSheet,AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import {View, Text,StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 class Found extends React.Component{

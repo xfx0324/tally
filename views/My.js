@@ -2,7 +2,8 @@ import React from 'react';
 import Ima from '../Ima';
 import {Icon} from 'react-native-elements';
 import RNRestart from 'react-native-restart';
-import {View, Text, StyleSheet, Image, TouchableOpacity,AsyncStorage,Switch,ScrollView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import {View, Text, StyleSheet, Image, TouchableOpacity,Switch,ScrollView} from 'react-native';
 
 class My extends React.Component{
     constructor(){

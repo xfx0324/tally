@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, FlatList,TextInput, SectionList,AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import {View, Text, StyleSheet, FlatList,TextInput, SectionList} from 'react-native';
 
 class SortAdd extends React.Component{
     constructor(){

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, FlatList,AsyncStorage,TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import Picker from 'react-native-picker';
 
 class YearReport extends React.Component{

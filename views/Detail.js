@@ -1,7 +1,8 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen'
 import {Icon} from 'react-native-elements';
-import {View, Text, StyleSheet, Button, ScrollView,AsyncStorage, SectionList} from 'react-native';
+import {View, Text, StyleSheet, Button, ScrollView, SectionList} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
 import Picker from 'react-native-picker';
 import Swipeout from 'react-native-swipeout';
 class Detail extends React.Component{

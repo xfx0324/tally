@@ -1,5 +1,6 @@
 import React from 'react';
 import Echarts from 'native-echarts';
+import AsyncStorage from '@react-native-community/async-storage'
 import {View, Text, StyleSheet} from 'react-native';
 
 class Chart extends React.Component{
