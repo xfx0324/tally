@@ -75,7 +75,10 @@ class YearReport extends React.Component{
         Picker.show();
       }
     componentDidMount() {
-        this.yearData();
+        this.props.navigation.addListener('didFocus',()=>{
+            this.yearData();
+         })
+        // this.yearData();
       }
     render(){
         return(

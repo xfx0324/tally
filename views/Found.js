@@ -49,7 +49,9 @@ class Found extends React.Component{
         }
     }
     componentDidMount(){
-        this.getTallyArr();
+        this.props.navigation.addListener('didFocus',()=>{
+            this.getTallyArr();
+         })
     }
     render(){
         return (

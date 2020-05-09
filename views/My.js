@@ -59,7 +59,10 @@ class My extends React.Component{
       }
 
     componentDidMount() {
-        this.getName();
+        this.props.navigation.addListener('didFocus',()=>{
+           this.getName()
+        })
+        
         console.log(this.state.flag)
       }
     render(){

@@ -59,7 +59,9 @@ class SortSet extends React.Component{
     }
     componentDidMount() {
         this.getFlag();
-        this.getArr()
+        this.props.navigation.addListener('didFocus',()=>{
+            this.getArr()
+         })
       }
     render(){
         // let swipeoutBtns = [{

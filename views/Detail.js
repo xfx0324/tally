@@ -9,10 +9,11 @@ class Detail extends React.Component{
     constructor(){
         super();
         this.state={
-            dataN:[2020,3],
+            dataN:[2020,5],
             in1:0,
             out1:0,
-            tallyArr:[],
+            tallyAll:[],//全部记账数据
+            tallyArr:[],//当月记账数据
             flag:false,//是否登录
         }
     }
@@ -22,6 +23,7 @@ class Detail extends React.Component{
         //如果已经登录就读取缓存的记账数据
         if(nameN){
             let tallyArrN=JSON.parse(await AsyncStorage.getItem('inTallyS'))
+            console.log(11111,tallyArrN)
             let tallySearch=[]
             let in1Sum=0
             let out1Sum=0
@@ -37,7 +39,8 @@ class Detail extends React.Component{
             this.setState({in1:in1Sum}) //选择月份的总收入
             this.setState({out1:out1Sum})//选择月份的总支出
             this.setState({tallyArr:tallySearch})
-            console.log(tallySearch)
+            this.setState({tallyAll:tallyArrN})
+            //console.log(tallySearch)
         }
         else{
             this.setState({flag:true})
@@ -59,31 +62,25 @@ class Detail extends React.Component{
         pickerData.push(month);
         Picker.init({
           pickerData: pickerData,
-          selectedValue: ['2020', '3'],
+          selectedValue: ['2020', '5'],
           pickerConfirmBtnText: '确定',
           pickerCancelBtnText: '取消',
           pickerTitleText: '选择年月',
           onPickerConfirm: data => {
             this.setState({dataN:data})
             this.getTallyArr()
-          },
-        //   onPickerCancel: data => {
-        //     console.log('取消：', data);
-        //   },
-        //   onPickerSelect: data => {
-        //     console.log('选择了：', data);
-        //   }
+          }
         })
         Picker.show();
       }
       //删除单条记录
       dele=(index,section)=>{
-        let deleC=this.state.tallyArr
+        let deleC=this.state.tallyAll
         let i=deleC.indexOf(section)
         if(section.data.length==1){
             deleC.splice(i,1)
-            this.setState({tallyArr:deleC},()=>{
-                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+            this.setState({tallyAll:deleC},()=>{
+                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyAll))
                 this.getTallyArr()
             })
         }else{
@@ -94,8 +91,8 @@ class Detail extends React.Component{
                 deleC[i].dayIn-=deleC[i].data[index].money
             }
             deleC[i].data.splice(index,1)
-            this.setState({tallyArr:deleC},()=>{
-                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+            this.setState({tallyAll:deleC},()=>{
+                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyAll))
                 this.getTallyArr()
             })
         }
@@ -103,11 +100,12 @@ class Detail extends React.Component{
       }
       //删除整天记录
       deleA=(section)=>{
-        let deleC=this.state.tallyArr
+        let deleC=this.state.tallyAll
         let i=deleC.indexOf(section)
+        // console.log('删除的数据',section,this.state.tallyAll,deleC,i)
         deleC.splice(i,1)
-            this.setState({tallyArr:deleC},()=>{
-                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyArr))
+            this.setState({tallyAll:deleC},()=>{
+                AsyncStorage.setItem('inTallyS',JSON.stringify(this.state.tallyAll))
                 this.getTallyArr()
             })
     }
@@ -115,7 +113,9 @@ class Detail extends React.Component{
         setTimeout(() => {
             SplashScreen.hide();
           },1200)
-          this.getTallyArr();
+          this.props.navigation.addListener('didFocus',()=>{
+            this.getTallyArr();
+         })
     }
     shouldComponentUpdate(){
         // this.getTallyArr();
@@ -174,9 +174,8 @@ class Detail extends React.Component{
                     </View>
                     </Swipeout>}
                 />
-            </View> 
+            </View>
             )}
-            
         </View>)
     }
 }
@@ -226,7 +225,8 @@ const styles = StyleSheet.create({
         marginTop:20
     },
     list:{
-        marginTop:12
+        marginTop:12,
+        marginBottom:300
     },
     swi:{
         backgroundColor:'white'

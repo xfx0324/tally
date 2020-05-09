@@ -14,7 +14,7 @@ class Tally extends React.Component{
             nameClick:'',//点击的图标名称
             sortClick:'',//点击的图标类别名称
             text:'',//输入框支出或着收入的金额
-            dataN:['2020','3','1'],
+            dataN:['2020','5','1'],
         }
 
     }
@@ -193,7 +193,9 @@ class Tally extends React.Component{
         console.log('支出设置')
     }
     componentDidMount() {
-        this.getArr();
+        this.props.navigation.addListener('didFocus',()=>{
+            this.getArr()
+         })
       }
     //收入类型设置
     // setSortIn=()=>{
